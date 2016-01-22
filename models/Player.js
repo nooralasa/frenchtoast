@@ -5,8 +5,8 @@ var playerSchema = mongoose.Schema({
   name: String, 
   age: Number, 
   gender: String,  
-  // type: String, 
-  // game: {type: mongoose.Schema.Types.ObjectId, ref: 'Game'}, 
+  type: String, 
+  game: {type: mongoose.Schema.Types.ObjectId, ref: 'Game'}, 
   createTime: {type: Date, default: Date.now} //auto timestamp
 });
 
@@ -25,6 +25,15 @@ playerSchema.statics.createPlayer = function (playerName, playerAge, playerGende
     }
   );
 }
+
+//find_player_by_everything
+playerSchema.methods.addTypeAndGame = function (playerType, gameId, callback) {
+  this.type = playerType;
+  this.game = gameId;
+  this.save();
+  callback(null);
+}
+
 
 
 
