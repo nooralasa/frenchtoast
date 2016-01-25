@@ -32,17 +32,13 @@ var concepts = ['Jellyfish'];
  */
 
  io.on('connection', function(socket){
-  counter += 1;
-  // if (counter%2==0) {
-  //   // Game.createGame(concepts[0],
-  //   //               function (err) {
-  //   //                 if (err) {
-  //   //                   console.log('err', err);
-  //   //                 } else {
-  //   //                   console.log('game created');
-  //   //                 }
-  //   //               });
-  // }
+  socket.on('chat message', function (msg) {
+    console.log(msg);
+  });
+  socket.on('player id', function (msg) {
+    console.log("hello hello hello: " +msg);
+  });
+
   console.log('a user connected');
  });
 
@@ -113,3 +109,5 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
+
+//module.exports = io;

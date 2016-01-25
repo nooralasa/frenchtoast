@@ -1,5 +1,6 @@
 $(function () {
 
+  var socket = io();
   $('#submit').click(function (evt) {
     //check if a game exists
     //create a player
@@ -11,15 +12,27 @@ $(function () {
       console.log(res);
       console.log('created a player');
     }).fail(function () {
-      alert('AJAX failed.');
+      alert('AJAX failed badly.');
     });    
   });
 
-  // if (counter%2==0) {
-  //   $('#submit').attr('href', '/playerb');
-  // } else {
-  //   $('#submit').attr('href', '/playera');
-  // }
+  $.get('/current', function (playerData) {
+    console.log("I'm here");
+    if (!playerData.success) {
+      alert('failed in getting user data');
+    } else {
+      currentPlayer = playerData.content.player;
+      console.log('yo yo yo');
+      socket.emit('player id', currentPlayer._id);
+      console.log(currentPlayer.type);
+      if (currentPlayer.type == 'B') {
+        console.log("I'm type B");
+        $('#submit').attr('href', '/playera');
+      } else {
+        $('#submit').attr('href', '/playerb');
+      }
+    }
+  });
 
 });
 

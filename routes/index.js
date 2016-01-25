@@ -12,15 +12,15 @@ router.get('/', function (req, res, next) {
   res.render('index');
 });
 
-// router.get('/current', function (req, res) {
-//   Player.findOne({}, {}, { sort: { 'createTime' : -1 } }, function (err, ply) { 
-//     if (err) {
-//         utils.sendErrResponse(res, 500, 'An unknown error occurred.');
-//       } else {
-//         utils.sendSuccessResponse(res, { player: ply });
-//       }
-//   });
-// });
+router.get('/current', function (req, res) {
+  Player.findOne({}, {}, { sort: { 'createTime' : -1 } }, function (err, ply) { 
+    if (err) {
+        utils.sendErrResponse(res, 500, 'An unknown error occurred.');
+      } else {
+        utils.sendSuccessResponse(res, { player: ply });
+      }
+  });
+});
 
 router.post('/', function (req, res) {
   //create a player
@@ -32,9 +32,9 @@ router.post('/', function (req, res) {
                         	console.log('err', err);
                           utils.sendErrResponseGivenError(res, err);
                         } else {
-                          Player.findOne({}, {}, { sort: { 'createTime' : -1 } }, function (err, ply) { 
-                            res.setHeader('Set-Cookie', ['playerId='+ply._id]);
-                          });
+                          // Player.findOne({}, {}, { sort: { 'createTime' : -1 } }, function (err, ply) { 
+                          //   res.setHeader('Set-Cookie', ['playerId='+ply._id]);
+                          // });
                           utils.sendSuccessResponse(res);
                         }
                       });
