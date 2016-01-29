@@ -14,9 +14,9 @@ $(function () {
       socket.emit('player', currentPlayer);
       if (currentPlayer && currentPlayer.type == 'B') {
         console.log("I'm type B");
-        window.location.replace('/playerb');
+        window.location.replace('/playerbInfo');
       } else {
-        window.location.replace('/playera');
+        window.location.replace('/playeraInfo');
       }
       console.log(res.content);
       console.log(currentPlayer.type == 'B');

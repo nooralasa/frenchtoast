@@ -74,5 +74,19 @@ router.get('/gameId', function (req, res, next) {
   utils.sendSuccessResponse(res, req.session.gameId);
 });
 
+router.get('/game', function (req, res, next) {
+  console.log(req.session.gameId);
+  Game.findById(req.session.gameId,
+                      function (err, game) {
+                        if (err) {
+                          //console.log('err', err);
+                          utils.sendErrResponseGivenError(res, err);
+                        } else {
+                          //console.log('Its all good!');
+                          utils.sendSuccessResponse(res, game);
+                        }
+                      });
+});
+
 module.exports = router;
 

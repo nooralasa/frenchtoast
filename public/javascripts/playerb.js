@@ -3,6 +3,7 @@ $(function () {
 	var socket = io();
 
   $('#submit').click(function (evt) {
+    $('#submit').attr('disabled', true);
   	console.log('Hello');
   	var ques = "Is it more like "+$('input[name=object1]').val()+" or like "+ $('input[name=object2]').val()+"?";
     $('#questions').append("<span>"+ques+"</span><br>");
@@ -30,7 +31,7 @@ $(function () {
 
   socket.on('serverToPlayerb', function (msg) {
     console.log(msg);
-    $('#submit').disabled = false;
+    $('#submit').attr('disabled', false);
     $('#questions').append("<span>"+msg.answer+"</span><br>");
   });
 

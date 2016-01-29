@@ -17,6 +17,8 @@ db.once('open', function (callback) {
 var index = require('./routes/index');
 var playerb = require('./routes/playerb');
 var playera = require('./routes/playera');
+var playeraInfo = require('./routes/playeraInfo');
+var playerbInfo = require('./routes/playerbInfo');
 
 var app = express();
 
@@ -39,6 +41,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/playerb', playerb);
 app.use('/playera', playera);
+app.use('/playeraInfo', playeraInfo);
+app.use('/playerbInfo', playerbInfo);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

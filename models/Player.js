@@ -1,6 +1,6 @@
 var mongoose = require("mongoose");
 var Game = require('./Game');
-var concepts = ['Jellyfish'];
+var concepts = ['jellyfish', 'diary', 'bottle', 'water', 'packet', 'tissue', 'glasses', 'watch', 'photo', 'camera'];
 
 var playerSchema = mongoose.Schema({
   name: String, 
@@ -52,7 +52,9 @@ playerSchema.statics.createPlayer = function (playerName, playerAge, playerGende
               });
             //else create a game 
             } else {
-              Game.createGame(concepts[0], ply, 
+              console.log(Math.round(Math.random()*10)-1);
+              console.log(concepts[Math.round(Math.random()*10)-1]);
+              Game.createGame(concepts[Math.round(Math.random()*10)-1], ply, 
                           function (err7) {
                             if (err7) {                          
                               callback(err7);
