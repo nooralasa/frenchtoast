@@ -26,20 +26,16 @@ questionSchema.statics.createQuestion = function (choice1, choice2, gameId, call
 }
 
 questionSchema.statics.findById = function (questionId, callback) {
-  console.log('Im in findById');
   this.findOne({ '_id': questionId}, function (err, question) {
     if (err) {
-      console.log('I didnt find anything');
       callback(err);
     } else {
-      console.log('Im adding an answer');
       callback(null, question);
     }
   });
 }
 
 questionSchema.statics.addAnswer = function (questionId, questionAnswer, callback) {
-  console.log('Im in addAnswer');
   this.findById(questionId, function (err, question) {
     if (err) {
       callback(err);
@@ -56,7 +52,6 @@ questionSchema.statics.addAnswer = function (questionId, questionAnswer, callbac
 }
 
 questionSchema.methods.addAnswerToDb = function (questionAnswer, callback) {
-  console.log('Im in addAnswerToDb');
   this.answer = questionAnswer;
   this.save();
   callback(null);

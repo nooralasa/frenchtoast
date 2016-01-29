@@ -24,48 +24,35 @@ var io = require('socket.io')(server);
 var game_ids = [];
 
 io.on('connection', function(socket){
+  console.log('a user connected');
+  
   socket.on('player', function (msg) {
-    if (game_ids[game_ids.length-1] != msg.game ) {
-      game_ids.push(msg.game);
-    }
-    console.log("hello hello hello: " +game_ids);
+    console.log('player: '+msg);
   });
 
-  // game_ids.forEach(function (entry) {
-  //   socket.on('playerbToServer'+entry, function (msg) {
-  //     console.log(msg);
-  //     socket.broadcast.emit('serverToPlayera', {
-  //       question: msg.question,
-  //       statement: msg.statement
-  //     });
-  //   });
-  // });
-
-  // socket.on('playerbToServer'+game_ids[game_ids.length-1], function (msg) {
-  //     console.log(msg);
-  //     socket.broadcast.emit('serverToPlayera', {
-  //       question: msg.question,
-  //       statement: msg.statement
-  //     });
-  //   });
-
   socket.on('playerbToServer', function (msg) {
-    console.log(msg);
-    socket.broadcast.emit('serverToPlayera', {
-      question: msg.question,
-      statement: msg.statement
-    });
+    console.log('playerbToServer: '+msg);
+    if (msg.guess) {
+      socket.broadcast.emit('serverToPlayera', {
+        gameId: msg.gameId,
+        statement: msg.statement,
+        guess: msg.guess
+      });
+    } else {
+      socket.broadcast.emit('serverToPlayera', {
+        question: msg.question,
+        statement: msg.statement
+      });
+    }
   });
 
   socket.on('playeraToServer', function (msg) {
-    console.log(msg);
+    console.log('playeraToServer: '+msg);
     socket.broadcast.emit('serverToPlayerb', {
       question: msg.question,
       answer: msg.answer
     });
   });
-
-  console.log('a user connected');
 });
 
 /**

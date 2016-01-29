@@ -27,7 +27,6 @@ gameSchema.statics.createGame = function (cnpt, playerId, callback) {
   );
 }
 
-//add_second_player
 gameSchema.statics.addPlayer = function (playerId, callback) {
   this.findOne({}, {}, { sort: { 'createTime' : -1 } }, function(err, game) {
     game.players.push(playerId);
@@ -36,8 +35,6 @@ gameSchema.statics.addPlayer = function (playerId, callback) {
   });
 }
 
-
-//change_status
 gameSchema.statics.changeStatus = function (newStatus, callback) {
   this.findOne({}, {}, { sort: { 'createTime' : -1 } }, function(err, game) {
     game.status = newStatus;
@@ -47,28 +44,21 @@ gameSchema.statics.changeStatus = function (newStatus, callback) {
 }
 
 gameSchema.statics.findById = function (gameId, callback) {
-  console.log('Im in findById');
   this.findOne({ '_id': gameId}, function (err, game) {
     if (err) {
-      console.log('I didnt find anything');
       callback(err);
     } else {
-      console.log('Im adding an answer');
       callback(null, game);
     }
   });
 }
 
 gameSchema.statics.wasQuestionAsked = function (gameId, questionId, callback) {
-  console.log('Im in addAnswer');
   var bool = true;
   this.findById(gameId, function (err, game) {
     if (err) {
       callback(err);
     } else {
-      // if (game.questions.length==0) {
-      //   callback(null, false);
-      // }
       game.questions.forEach( function (question) {
         if (question==questionId) {
           callback(null, true);
@@ -83,7 +73,6 @@ gameSchema.statics.wasQuestionAsked = function (gameId, questionId, callback) {
 }
 
 gameSchema.statics.addQuestion = function (gameId, questionId, callback) {
-  console.log('Im in addAnswer');
   this.findById(gameId, function (err, game) {
     if (err) {
       callback(err);
@@ -99,9 +88,34 @@ gameSchema.statics.addQuestion = function (gameId, questionId, callback) {
   });
 }
 
+gameSchema.statics.addGuess = function (gameId, guess, callback) {
+  this.findById(gameId, function (err, game) {
+    if (err) {
+      callback(err);
+    } else {
+      game.addGuessToDb(guess, function (er) {
+        if (er) {
+          callback(er);
+        } else {
+          if (guess.toLowerCase()==game.concept) {
+            callback(null, game.id, true);
+          } else {
+            callback(null, game.id, false);
+          }
+        }
+      });
+    }
+  });
+}
+
 gameSchema.methods.addQuestionToDb = function (questionId, callback) {
-  console.log('Im in addQuestionToDb');
   this.questions.push(questionId);
+  this.save();
+  callback(null);
+}
+
+gameSchema.methods.addGuessToDb = function (guess, callback) {
+  this.guesses.push(guess);
   this.save();
   callback(null);
 }

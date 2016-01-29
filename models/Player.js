@@ -52,8 +52,6 @@ playerSchema.statics.createPlayer = function (playerName, playerAge, playerGende
               });
             //else create a game 
             } else {
-              console.log(Math.round(Math.random()*10)-1);
-              console.log(concepts[Math.round(Math.random()*10)-1]);
               Game.createGame(concepts[Math.round(Math.random()*10)-1], ply, 
                           function (err7) {
                             if (err7) {                          
@@ -87,16 +85,12 @@ playerSchema.statics.findPlayer = function (playerId, callback) {
   });
 }
 
-//find_player_by_everything
 playerSchema.methods.addTypeAndGame = function (playerType, gameId, callback) {
   this.type = playerType;
   this.game = gameId;
   this.save();
   callback(null);
 }
-
-
-
 
 // Exporting the mongoose object to be used elsewhere in the code
 module.exports = mongoose.model("Player", playerSchema);
