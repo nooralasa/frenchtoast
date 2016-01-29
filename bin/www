@@ -8,9 +8,6 @@ var app = require('../app');
 var debug = require('debug')('frenchtoast:server');
 var http = require('http');
 
-var utils = require('../utils/utils');
-var Game = require('../models/Game');
-
 /**
  * Get port from environment and store in Express.
  */
@@ -24,23 +21,52 @@ app.set('port', port);
 
 var server = http.createServer(app);
 var io = require('socket.io')(server);
-var counter = 0;
-var concepts = ['Jellyfish'];
+var game_ids = [];
 
-/**
- * Listen to io connections
- */
-
- io.on('connection', function(socket){
-  socket.on('chat message', function (msg) {
-    console.log(msg);
+io.on('connection', function(socket){
+  socket.on('player', function (msg) {
+    if (game_ids[game_ids.length-1] != msg.game ) {
+      game_ids.push(msg.game);
+    }
+    console.log("hello hello hello: " +game_ids);
   });
-  socket.on('player id', function (msg) {
-    console.log("hello hello hello: " +msg);
+
+  // game_ids.forEach(function (entry) {
+  //   socket.on('playerbToServer'+entry, function (msg) {
+  //     console.log(msg);
+  //     socket.broadcast.emit('serverToPlayera', {
+  //       question: msg.question,
+  //       statement: msg.statement
+  //     });
+  //   });
+  // });
+
+  // socket.on('playerbToServer'+game_ids[game_ids.length-1], function (msg) {
+  //     console.log(msg);
+  //     socket.broadcast.emit('serverToPlayera', {
+  //       question: msg.question,
+  //       statement: msg.statement
+  //     });
+  //   });
+
+  socket.on('playerbToServer', function (msg) {
+    console.log(msg);
+    socket.broadcast.emit('serverToPlayera', {
+      question: msg.question,
+      statement: msg.statement
+    });
+  });
+
+  socket.on('playeraToServer', function (msg) {
+    console.log(msg);
+    socket.broadcast.emit('serverToPlayerb', {
+      question: msg.question,
+      answer: msg.answer
+    });
   });
 
   console.log('a user connected');
- });
+});
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -110,4 +136,4 @@ function onListening() {
   debug('Listening on ' + bind);
 }
 
-//module.exports = io;
+module.exports = io;

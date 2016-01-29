@@ -3,10 +3,6 @@
 <html lang="en">
 	<head>
 		<script src="/socket.io/socket.io.js"></script>
-		<script>  
-			var socket = io();
-  		var counter = 0; 
-  	</script>
 		<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
 		<link href="//code.jquery.com/ui/1.11.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
 		<link rel="stylesheet" href="http://jquery-ui.googlecode.com/svn/tags/latest/themes/base/jquery.ui.theme.css" type="text/css" />
@@ -33,7 +29,7 @@
   		<input type="radio" name="gender" value="male" checked> Male<br>
   		<input type="radio" name="gender" value="female"> Female
   		<br><br>
-  		<a href='/playera' id="submit" class="btn" value="Submit">Submit</a>
+  		<input id="submit" type="button" value="Submit">
 		</form>
 
 	</body>

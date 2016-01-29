@@ -3,7 +3,8 @@
 <html lang="en">
 	<head>
 		<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
-		<!-- <script src="/javascripts/playera.js"></script> -->
+		<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+		<script src="/javascripts/playera.js"></script>
 	</head>
 
 	<body>
@@ -17,7 +18,7 @@
 
 			<div>
 				<h3>Answer the question below</h3>
-				<p>Is it more like Tofu or like Crackers?</p>
+				<p id='currentQuestion'>Waiting for question!</p>
 				<input type="text" name="answer"> <input id="submit" type="button" value="Submit">
 			</div>
 		</div>
