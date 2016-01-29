@@ -10,13 +10,27 @@ router.get('/', function (req, res, next) {
   res.render('index');
 });
 
+// router.get('/current', function (req, res) {
+//   Player.findOne({}, {}, { sort: { 'createTime' : -1 } }, function (err, ply) { 
+//     if (err) {
+//         utils.sendErrResponse(res, 500, 'An unknown error occurred.');
+//       } else {
+//         utils.sendSuccessResponse(res, { player: ply });
+//       }
+//   });
+// });
+
 router.get('/current', function (req, res) {
-  Player.findOne({}, {}, { sort: { 'createTime' : -1 } }, function (err, ply) { 
-    if (err) {
-        utils.sendErrResponse(res, 500, 'An unknown error occurred.');
-      } else {
-        utils.sendSuccessResponse(res, { player: ply });
-      }
+  console.log('eq.session.playerId: '+req.session.playerId);
+  Player.findPlayer(req.session.playerId, function (err, player) {
+                        if (err) {
+                          console.log('err', err);
+                          utils.sendErrResponseGivenError(res, err);
+                        } else {
+                          console.log(player);
+                          console.log('Its all good!');
+                          utils.sendSuccessResponse(res, player);
+                        }
   });
 });
 

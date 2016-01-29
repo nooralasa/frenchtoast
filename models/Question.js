@@ -55,40 +55,6 @@ questionSchema.statics.addAnswer = function (questionId, questionAnswer, callbac
   });
 }
 
-// questionSchema.statics.addAnswer = function (questionId, questionAnswer, callback) {
-//   console.log('Im in addAnswer');
-//   this.findOne({}, {}, { sort: { 'createTime' : -1 } }, function (err1, question) {         
-//     if (err) {
-//       callback(err);
-//     } else {
-//       question.addAnswerToDb(questionAnswer, function (er) {
-//         if (er) {
-//           callback(er);
-//         } else {
-//           callback(null);
-//         }
-//       });
-//     }
-//   });
-// }
-
-      
-
-// questionSchema.statics.addAnswer = function (questionId, questionAnswer, callback) {
-//   this.findOne({ '_id': questionId}, function (err, question) {
-//     if (err) {
-//       console.log('I didnt find anything');
-//       callback(err);
-//     } else {
-//       console.log('Im adding an answer');
-//       question.answer = questionAnswer;
-//       question.save();
-//       callback(null);
-//     }
-//   });
-// }
-
-//find_player_by_everything
 questionSchema.methods.addAnswerToDb = function (questionAnswer, callback) {
   console.log('Im in addAnswerToDb');
   this.answer = questionAnswer;

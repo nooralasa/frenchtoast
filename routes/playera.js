@@ -10,26 +10,8 @@ router.get('/', function(req, res, next) {
   res.render('playera');
 });
 
-// router.post('/', function (req, res) {
-
-// 	Question.createQuestion(req.body.firstChoice,
-// 											req.body.secondChoice,
-// 											req.body.answer,
-// 											req.session.gameId,
-// 											function (err, question) {
-//                         if (err) {
-//                         	console.log('err', err);
-//                           utils.sendErrResponseGivenError(res, err);
-//                         } else {
-//                           console.log('Its all good!');
-//                           utils.sendSuccessResponse(res, question);
-//                         }
-//                       });
-
-// });
-
 router.post('/', function (req, res) {
-	console.log('req: '+req.body);
+	console.log(req.session.gameId);
 	console.log('questionId: '+req.body.quesId);
 	console.log('answer: '+req.body.answer);
 	Question.addAnswer(req.body.quesId,
@@ -44,6 +26,52 @@ router.post('/', function (req, res) {
                         }
                       });
 
+});
+
+router.post('/addQuestion', function (req, res) {
+  console.log(req.session.gameId);
+  console.log('questionId: '+req.body.quesId);
+  Game.addQuestion(req.session.gameId,
+                       req.body.quesId,
+                      function (err) {
+                        if (err) {
+                          //console.log('err', err);
+                          utils.sendErrResponseGivenError(res, err);
+                        } else {
+                          //console.log('Its all good!');
+                          utils.sendSuccessResponse(res);
+                        }
+                      });
+
+});
+
+router.post('/wasQuestionAsked', function (req, res) {
+  console.log(req.session.gameId);
+  console.log('questionId: '+req.body.quesId);
+  Game.wasQuestionAsked(req.session.gameId,
+                       req.body.quesId,
+                      function (err, bool) {
+                        if (err) {
+                          //console.log('err', err);
+                          utils.sendErrResponseGivenError(res, err);
+                        } else {
+                          //console.log('Its all good!');
+                          utils.sendSuccessResponse(res, bool);
+                        }
+                      });
+
+});
+
+router.post('/gameId', function (req, res) {
+  console.log(req.session.gameId);
+  
+  utils.sendSuccessResponse(res, req.session.gameId);
+
+});
+
+router.get('/gameId', function (req, res, next) {
+  console.log(req.session.gameId);
+  utils.sendSuccessResponse(res, req.session.gameId);
 });
 
 module.exports = router;

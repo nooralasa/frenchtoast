@@ -46,5 +46,65 @@ gameSchema.statics.changeStatus = function (newStatus, callback) {
   });
 }
 
+gameSchema.statics.findById = function (gameId, callback) {
+  console.log('Im in findById');
+  this.findOne({ '_id': gameId}, function (err, game) {
+    if (err) {
+      console.log('I didnt find anything');
+      callback(err);
+    } else {
+      console.log('Im adding an answer');
+      callback(null, game);
+    }
+  });
+}
+
+gameSchema.statics.wasQuestionAsked = function (gameId, questionId, callback) {
+  console.log('Im in addAnswer');
+  var bool = true;
+  this.findById(gameId, function (err, game) {
+    if (err) {
+      callback(err);
+    } else {
+      // if (game.questions.length==0) {
+      //   callback(null, false);
+      // }
+      game.questions.forEach( function (question) {
+        if (question==questionId) {
+          callback(null, true);
+          bool = false;
+        } 
+      });
+      if (bool) {
+        callback(null, false);
+      } 
+    }
+  });
+}
+
+gameSchema.statics.addQuestion = function (gameId, questionId, callback) {
+  console.log('Im in addAnswer');
+  this.findById(gameId, function (err, game) {
+    if (err) {
+      callback(err);
+    } else {
+      game.addQuestionToDb(questionId, function (er, que) {
+        if (er) {
+          callback(er);
+        } else {
+          callback(null, que);
+        }
+      });
+    }
+  });
+}
+
+gameSchema.methods.addQuestionToDb = function (questionId, callback) {
+  console.log('Im in addQuestionToDb');
+  this.questions.push(questionId);
+  this.save();
+  callback(null);
+}
+
 // Exporting the mongoose object to be used elsewhere in the code
 module.exports = mongoose.model("Game", gameSchema);
